@@ -1,9 +1,38 @@
 package org.example.crud
 
+import br.unipar.crud.EntidadeJBDC
 import entidades.CaixaDAgua
 import enumeradores.Material
 
+fun criarTabelaCaixa(){
+    val connectar = EntidadeJBDC(
+        url = "postgresql://localhost:5432/postgres",
+        usuario = "postgres",
+        senha = "postgress"
+
+    )
+    val sql = "CREATE TABLE IF NOT EXISTS CaixaDAgua " +
+            " (id serial NOT NULL PRIMARY KEY," +
+            " capacidade float," +
+            "cor varchar (255)," +
+            "peso float," +
+            "preco varchar," +
+            "altura float," +
+            "profundidade float," +
+            "largura varchar (255)," +
+            "duracao float." +
+            "conteudo float." +
+            "material varchar(255)" +
+            ")"
+    val banco = connectar.connectarComBanco()
+    var enviarParaBanco = banco !!.createStatement().execute(sql)
+
+    println(enviarParaBanco)
+    banco.close()
+}
+
 fun cadastrarCaixa(){
+
     /*
     val capacidade: Int,
     val cor: String,
