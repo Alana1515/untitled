@@ -4,12 +4,14 @@ import entidades.CaixaDAgua
 import enumeradores.Material
 import java.math.BigDecimal
 
+val connectar = EntidadeJDBC(
+    url = "jdbc:postgresql://localhost:5432/aula",
+    usuario ="postgres",
+    senha = "postgres",
+)
+
 fun criarTabelaCaixa(){
-    val connectar = EntidadeJDBC(
-        url = "jdbc:postgresql://localhost:5432/",
-        usuario ="postgres",
-        senha = "postgres"
-    )
+
 
     val sql = "CREATE TABLE IF NOT EXISTS CaixaDAgua (" +
             "id serial NOT NULL PRIMARY KEY, " +
@@ -21,7 +23,7 @@ fun criarTabelaCaixa(){
             "profundidade float, " +
             "largura varchar(255), " +
             "duracao float, " +
-            "conteudo float, " +
+            "conteudo varchar(255), " +
             "material varchar(255)" +
             ")"
 
@@ -95,7 +97,8 @@ fun cadastrarCaixa(){
 
     // salvar as variaves dentro da classe CaixadAgua
     // conectar o atributo da classe a variavel que o usuario digitou
-    CaixaDAgua(
+
+    val c = CaixaDAgua(
         material = material,
         capacidade = capacidade,
         cor = cor,
@@ -108,6 +111,26 @@ fun cadastrarCaixa(){
         conteudo = conteudoCaixa
 
     )
+    val banco = connectar.connectarComBanco()!!.prepareStatement(
+    "INSERT INTO CaixaDAgua" +
+            " (material, capacidade, cor, peso, preco, altura, profundidade, largura, duracao, conteudo)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    )
+        banco.setString(1, c.material.name)
+        banco.setInt(2, c.capacidade)
+        banco.setString(3, c.cor)
+        banco.setDouble(4, c.peso)
+        banco.setString(5, c.preco.toString())
+        banco.setDouble(6, c.altura)
+        banco.setDouble(7, c.profundidade)
+        banco.setDouble(8, c.largura)
+        banco.setInt(9, c.duracao)
+        banco.setString(10, c.conteudo)
+
+    banco.executeUpdate() //isso fara COMIT NO BANCO
+    banco.close()
+
+
 }
 fun editarCaixa(){
 

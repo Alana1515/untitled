@@ -1,5 +1,7 @@
 package org.example.ui
 
+import br.unipar.crud.cadastrarCaixa
+
 fun menu() {
     do {
         println("1 - Cadastrar Caixa DAgua")
@@ -12,9 +14,10 @@ fun menu() {
 
         when (opcao) {
             0 -> println("Adeus amigo!")
-            1 -> println("Cadastrando caixa...")
-            2 -> println("Editando caixa...")
-            3 -> println("Excluindo caixa...")
+            1 -> cadastrarCaixa()
+            2 -> println("Cadastrando caixa...")
+            3 -> println("Editando caixa...")
+            4 -> println("Excluindo caixa...")
             else -> println("Opção inválida!")
         }
     } while (opcao != 0)
