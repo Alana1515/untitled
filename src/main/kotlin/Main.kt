@@ -1,9 +1,9 @@
 package br.unipar
 
-import org.example.crud.criarTabelaCaixa
+import br.unipar.crud.criarTabelaCaixa
 import org.example.ui.menu
 
-fun main () {
+fun main() {
     criarTabelaCaixa()
 
     menu()

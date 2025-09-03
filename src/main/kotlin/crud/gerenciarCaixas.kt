@@ -1,40 +1,42 @@
-package org.example.crud
+package br.unipar.crud
 
-import br.unipar.crud.EntidadeJBDC
 import entidades.CaixaDAgua
 import enumeradores.Material
+import java.math.BigDecimal
 
 fun criarTabelaCaixa(){
-    val connectar = EntidadeJBDC(
-        url = "postgresql://localhost:5432/postgres",
-        usuario = "postgres",
-        senha = "postgress"
-
+    val connectar = EntidadeJDBC(
+        url = "jdbc:postgresql://localhost:5432/",
+        usuario ="postgres",
+        senha = "postgres"
     )
-    val sql = "CREATE TABLE IF NOT EXISTS CaixaDAgua " +
-            " (id serial NOT NULL PRIMARY KEY," +
-            " capacidade float," +
-            "cor varchar (255)," +
-            "peso float," +
-            "preco varchar," +
-            "altura float," +
-            "profundidade float," +
-            "largura varchar (255)," +
-            "duracao float." +
-            "conteudo float." +
+
+    val sql = "CREATE TABLE IF NOT EXISTS CaixaDAgua (" +
+            "id serial NOT NULL PRIMARY KEY, " +
+            "capacidade float, " +
+            "cor varchar(255), " +
+            "peso float, " +
+            "preco varchar(255), " +
+            "altura float, " +
+            "profundidade float, " +
+            "largura varchar(255), " +
+            "duracao float, " +
+            "conteudo float, " +
             "material varchar(255)" +
             ")"
-    val banco = connectar.connectarComBanco()
-    var enviarParaBanco = banco !!.createStatement().execute(sql)
 
-    println(enviarParaBanco)
-    banco.close()
+    val banco = connectar.connectarComBanco()// vai criar uma tabela se caso não existi outra
+    var enviarParaBanco = banco!!.createStatement().execute(sql)
+
+    println(enviarParaBanco) // tem que retorna false ou 01 para dar certo
+
+    banco.close()// vai encerrear a conneccao com o banco
+
 }
 
 fun cadastrarCaixa(){
-
     /*
-    val capacidade: Int,
+    * val capacidade: Int,
     val cor: String,
     val peso: Double,
     val preco: BigDecimal?,
@@ -44,72 +46,76 @@ fun cadastrarCaixa(){
     val duracao: Int,
     val conteudo: String,
     val material: Material
-    FERRO, PVC, PLASTICO, ACO
-     */
-    println("Escolha o material de qual a caixa é composta")
-    println("1 - Ferro")
-    println("2 - PVC")
-    println("3 - Plastico")
-    println("4 - Aco")
+    * FERRO, PVC, PLASTICO, ACO
+    * */
+
+    println("Escolha o mateiral do qual a caixa e composto ")
+    println("1- ferro")
+    println("2- pvc")
+    println("3- plastico")
+    println("3- aço")
+
     val opcao = readln().toInt()
     var material : Material
-    when (opcao){
-        1 -> material = Material.FERRO
+
+    when(opcao){
+        1-> material = Material.FERRO
         2 -> material = Material.PVC
         3 -> material = Material.PLASTICO
         4 -> material = Material.ACO
         else -> material = Material.PLASTICO
     }
+    println("Digite a capacidade da Caixa D'Agua")
+    val capacidade =  readln().toInt()
 
-    println("Capacidade da caixa de Litros:" )
-    val capacidade = readln().toInt()
+    println("Digite a cor da caixa")
+    var cor = readln()
 
-    println("Cor da caixa:" )
-    val cor = readln()
+    println("Digite a o peso da caixa ")
+    var peso = readln().toDouble()
 
-    println("Peso da caixa: ")
-    val peso = readln().toDouble()
-
-    println("Preço da caixa: ")
+    println("imforme o preço da caixa ")
     val preco = readln().toBigDecimal()
 
-    println("Altura da caixa: ")
-    val altura = readln().toDouble()
+    println("Dogite a altura da caixa")
+    val alturaCaixa = readln().toDouble()
 
-    println("Profundidade da caixa: ")
-    val profundidade = readln().toDouble()
+    println("Dogite a altura da profundidade")
+    val profundidadeCaixa = readln().toDouble()
 
-    println("Largura da caixa: ")
-    val largura = readln().toDouble()
+    println("Dogite a largura da caixa")
+    val larguraCaixa = readln().toDouble()
 
-    println("Duração da caixa: ")
-    val duracao = readln().toInt()
+    println("Dogite a duração da caixa")
+    val duracaoCaixa = readln().toInt()
 
-    println("Conteudo da caixa: ")
-    val conteudo = readln()
+    println("Dogite o conteudo da caixa")
+    val conteudoCaixa = readln()
 
-    //Salvar as variaveis agora dentro da classe
+
+    // salvar as variaves dentro da classe CaixadAgua
+    // conectar o atributo da classe a variavel que o usuario digitou
     CaixaDAgua(
+        material = material,
         capacidade = capacidade,
+        cor = cor,
         peso = peso,
         preco = preco,
-        altura = altura,
-        profundidade = profundidade,
-        largura = largura,
-        duracao = duracao,
-        conteudo = conteudo
+        altura = alturaCaixa,
+        profundidade = profundidadeCaixa,
+        largura = larguraCaixa,
+        duracao = duracaoCaixa,
+        conteudo = conteudoCaixa
 
     )
 }
-
-
 fun editarCaixa(){
+
 }
-
-
 fun listarCaixas(){
+
+
 }
-
-
 fun excluirCaixa(){
+
 }
